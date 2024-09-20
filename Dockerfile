@@ -7,13 +7,15 @@ USER ehrbase
 
 WORKDIR /app
 
-COPY /application/target/ehrbase.jar /app/ehrbase.jar
+# Assuming ehrbase.jar is in the same directory as the Dockerfile
+COPY ehrbase.jar /app/ehrbase.jar
 COPY --chown=ehrbase:ehrbase /docker-entrypoint.sh /app/docker-entrypoint
 
-RUN chown -R ehrbase:ehrbase /app &\
+RUN chown -R ehrbase:ehrbase /app && \
     chmod +x /app/docker-entrypoint
 
 EXPOSE 8080
 
-# wrapped in entrypoint to be able to accept cli args and use jacoco cli env var
+# Wrapped in entrypoint to be able to accept CLI args and use jacoco CLI env var
 ENTRYPOINT ["/app/docker-entrypoint"]
+
